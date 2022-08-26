@@ -35,17 +35,8 @@ test("HTMLを解析します", async ({ page }) => {
           const 搭乗ポイント = (await page.locator('#result_point table table tr:nth-child(4) td strong').innerText()).replace(/,/g, '')
 
           const input = { source, destination, card, fare }
-          const output = {
-            マイル,
-            フライトマイル,
-            ボーナスマイル,
-            区間基本マイレージ,
-            クラス運賃倍率,
-            プレミアムステイタス,
-            プレミアムポイント,
-            路線倍率,
-            搭乗ポイント,
-          }
+          const output = { マイル, フライトマイル, ボーナスマイル, 区間基本マイレージ,
+            クラス運賃倍率, プレミアムステイタス, プレミアムポイント, 路線倍率, 搭乗ポイント }
 
           items.push({ input, output })
         }
@@ -55,20 +46,6 @@ test("HTMLを解析します", async ({ page }) => {
 
   const text = JSON.stringify({ items }, null, 2)
 
-  await fsPromises.mkdir('parse', { recursive: true })
-  await fsPromises.writeFile('parse/data.json', text)
-
-
-  // for (const { input, output } of items) {
-  //   const cells = [
-  //     input.source.name,
-  //     input.destination.name,
-  //     input.card.name,
-  //     input.fare.name,
-  //     output.マイル,
-  //     output.プレミアムポイント,
-  //   ]
-
-  //   console.info(cells.join(' | '))
-  // }
+  await fsPromises.mkdir('tmp/parse', { recursive: true })
+  await fsPromises.writeFile('tmp/parse/data.json', text)
 })

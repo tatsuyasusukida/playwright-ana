@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "gist": "gist -u f96228a9389603c767feab06f697e23f -o tests/* tmp/print/data.csv"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

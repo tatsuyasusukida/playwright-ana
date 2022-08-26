@@ -4,12 +4,8 @@ import { sources, destinations, cards, fares } from "./input.json";
 
 test('HTMLを取得します', async ({ page }) => {
   const sleep = 5000
-  const timeout = sources.length
-    * destinations.length
-    * cards.length
-    * fares.length
-    * sleep
-    * 2
+  const timeout = sources.length * destinations.length
+    * cards.length * fares.length * sleep * 2
 
   test.setTimeout(timeout)
 
@@ -17,7 +13,7 @@ test('HTMLを取得します', async ({ page }) => {
 
   // 事前アクセス（初回アクセス時にエラーページが表示されるため）
   await page.goto(url)
-  fsPromises.mkdir('html', { recursive: true })
+  fsPromises.mkdir('tmp/fetch', { recursive: true })
 
   for (const source of sources) {
     for (const destination of destinations) {
@@ -39,15 +35,10 @@ test('HTMLを取得します', async ({ page }) => {
             page.locator('.btn_c a').click(),
           ])
 
-          const basename = [
-            source.code,
-            destination.code,
-            card.code,
-            fare.code,
-          ].join('-')
+          const basename = [source.code, destination.code, card.code, fare.code].join('-')
 
-          fsPromises.writeFile(`html/${basename}.html`, await page.content())
-          await page.screenshot({ path: `html/${basename}.png` })
+          fsPromises.writeFile(`tmp/fetch/${basename}.html`, await page.content())
+          await page.screenshot({ path: `tmp/fetch/${basename}.png` })
 
           // 優しさ
           await page.waitForTimeout(sleep)
